@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from os import listdir
+from os import listdir, path
 import numpy as np
 import codecs
+import json
 
 def parse_data(in_file):
     """
@@ -13,7 +14,7 @@ def parse_data(in_file):
     with codecs.open(in_file, 'rb') as fi:
         fi.readline()
         data = [float(line.decode('utf8')) for line in fi if len(line) > 0]
-    return np.array(data)
+    return data
 
 def get_data_set(set_type="train", category="pos"):
     """
@@ -29,14 +30,40 @@ def get_data_set(set_type="train", category="pos"):
 
     return data_set
 
-train_pos_data = get_data_set()
-train_neg_data = get_data_set(category="neg")
+if path.isfile('train_pos_data.json'):
+    with codecs.open('train_pos_data.json', 'rb') as fi:
+        train_pos_data = json.load(fi)
+else:
+    train_pos_data = get_data_set()
+    with codecs.open('train_pos_data.json', 'w') as fi:
+        json.dump(train_pos_data, fi)
+
+if path.isfile('train_neg_data.json'):
+    with codecs.open('train_neg_data.json', 'rb') as fi:
+        train_neg_data = json.load(fi)
+else:
+    train_neg_data = get_data_set(category="neg")
+    with codecs.open('train_neg_data.json', 'w') as fi:
+        json.dump(train_neg_data, fi)
 
 train_pos_labels = np.ones((len(train_pos_data), 1), dtype=int)
 train_neg_labels = -1 * np.ones((len(train_neg_data), 1), dtype=int)
 
-test_pos_data = get_data_set(set_type="test")
-test_neg_data = get_data_set("test", "neg")
+if path.isfile('test_pos_data.json'):
+    with codecs.open('test_pos_data.json', 'rb') as fi:
+        test_pos_data = json.load(fi)
+else:
+    test_pos_data = get_data_set(set_type="test")
+    with codecs.open('test_pos_data.json', 'w') as fi:
+        json.dump(test_pos_data, fi)
+
+if path.isfile('test_neg_data.json'):
+    with codecs.open('test_neg_data.json', 'rb') as fi:
+        test_neg_data = json.load(fi)
+else:
+    test_neg_data = get_data_set("test", "neg")
+    with codecs.open('test_neg_data.json', 'w') as fi:
+        json.dump(test_neg_data, fi)
 
 test_pos_labels = np.ones((len(test_pos_data), 1), dtype=int)
 test_neg_labels = -1 * np.ones((len(test_neg_data), 1), dtype=int)

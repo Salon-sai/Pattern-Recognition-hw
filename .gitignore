@@ -2,3 +2,4 @@ test/*
 train/*
 .idea/*
 __pycache__/*
+*.json
