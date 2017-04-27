@@ -20,7 +20,7 @@ esimators['svm_linear'] = svm.LinearSVC()
 for k in esimators.keys():
     start_time = datetime.datetime.now()
     print('-----%s------', k)
-    esimators[k] = esimators[k].fit(data_process.all_train_data, data_process.all_train_label)
+    esimators[k] = esimators[k].fit(data_process.all_train_data, data_process.all_train_label.ravel())
     predict = esimators[k].predict(data_process.all_test_data)
     print('%s Score: %0.4f' % (k, esimators[k].score(data_process.all_test_data, data_process.all_test_label)))
     print("%s test accuracy %0.4f" % (k, accuracy_score(data_process.all_test_label, predict)))
