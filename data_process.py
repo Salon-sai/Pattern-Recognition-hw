@@ -30,46 +30,53 @@ def get_data_set(set_type="train", category="pos"):
 
     return data_set
 
-if path.isfile('train_pos_data.json'):
-    with codecs.open('train_pos_data.json', 'rb') as fi:
-        train_pos_data = json.load(fi)
-else:
-    train_pos_data = get_data_set()
-    with codecs.open('train_pos_data.json', 'w') as fi:
-        json.dump(train_pos_data, fi)
+def all_train_data_label():
+    if path.isfile('train_pos_data.json'):
+        with codecs.open('train_pos_data.json', 'rb') as fi:
+            train_pos_data = json.load(fi)
+    else:
+        train_pos_data = get_data_set()
+        with codecs.open('train_pos_data.json', 'w') as fi:
+            json.dump(train_pos_data, fi)
 
-if path.isfile('train_neg_data.json'):
-    with codecs.open('train_neg_data.json', 'rb') as fi:
-        train_neg_data = json.load(fi)
-else:
-    train_neg_data = get_data_set(category="neg")
-    with codecs.open('train_neg_data.json', 'w') as fi:
-        json.dump(train_neg_data, fi)
+    if path.isfile('train_neg_data.json'):
+        with codecs.open('train_neg_data.json', 'rb') as fi:
+            train_neg_data = json.load(fi)
+    else:
+        train_neg_data = get_data_set(category="neg")
+        with codecs.open('train_neg_data.json', 'w') as fi:
+            json.dump(train_neg_data, fi)
 
-train_pos_labels = np.ones((len(train_pos_data), 1), dtype=int)
-train_neg_labels = -1 * np.ones((len(train_neg_data), 1), dtype=int)
+    train_pos_labels = np.ones((len(train_pos_data), 1), dtype=int)
+    train_neg_labels = -1 * np.ones((len(train_neg_data), 1), dtype=int)
 
-if path.isfile('test_pos_data.json'):
-    with codecs.open('test_pos_data.json', 'rb') as fi:
-        test_pos_data = json.load(fi)
-else:
-    test_pos_data = get_data_set(set_type="test")
-    with codecs.open('test_pos_data.json', 'w') as fi:
-        json.dump(test_pos_data, fi)
+    all_train_data = np.matrix(np.concatenate((train_pos_data, train_neg_data)))
+    all_train_label = np.concatenate((train_pos_labels, train_neg_labels))
+    return all_train_data, all_train_label
 
-if path.isfile('test_neg_data.json'):
-    with codecs.open('test_neg_data.json', 'rb') as fi:
-        test_neg_data = json.load(fi)
-else:
-    test_neg_data = get_data_set("test", "neg")
-    with codecs.open('test_neg_data.json', 'w') as fi:
-        json.dump(test_neg_data, fi)
+def all_test_data_label():
+    if path.isfile('test_pos_data.json'):
+        with codecs.open('test_pos_data.json', 'rb') as fi:
+            test_pos_data = json.load(fi)
+    else:
+        test_pos_data = get_data_set(set_type="test")
+        with codecs.open('test_pos_data.json', 'w') as fi:
+            json.dump(test_pos_data, fi)
 
-test_pos_labels = np.ones((len(test_pos_data), 1), dtype=int)
-test_neg_labels = -1 * np.ones((len(test_neg_data), 1), dtype=int)
+    if path.isfile('test_neg_data.json'):
+        with codecs.open('test_neg_data.json', 'rb') as fi:
+            test_neg_data = json.load(fi)
+    else:
+        test_neg_data = get_data_set("test", "neg")
+        with codecs.open('test_neg_data.json', 'w') as fi:
+            json.dump(test_neg_data, fi)
 
-all_train_data = np.matrix(np.concatenate((train_pos_data, train_neg_data)))
-all_train_label = np.concatenate((train_pos_labels, train_neg_labels))
+    test_pos_labels = np.ones((len(test_pos_data), 1), dtype=int)
+    test_neg_labels = -1 * np.ones((len(test_neg_data), 1), dtype=int)
 
-all_test_data = np.concatenate((test_pos_data, test_neg_data))
-all_test_label = np.concatenate((test_pos_labels, test_neg_labels))
+    all_test_data = np.concatenate((test_pos_data, test_neg_data))
+    all_test_label = np.concatenate((test_pos_labels, test_neg_labels))
+    return all_test_data, all_test_label
+
+all_train_data, all_train_label = all_train_data_label()
+all_test_data, all_test_label = all_test_data_label()
