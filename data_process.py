@@ -30,7 +30,7 @@ def get_data_set(set_type="train", category="pos"):
 
     return data_set
 
-def all_train_data_label():
+def all_train_dataAndlabel():
     if path.isfile('train_pos_data.json'):
         with codecs.open('train_pos_data.json', 'rb') as fi:
             train_pos_data = json.load(fi)
@@ -54,7 +54,7 @@ def all_train_data_label():
     all_train_label = np.concatenate((train_pos_labels, train_neg_labels))
     return all_train_data, all_train_label
 
-def all_test_data_label():
+def all_test_dataAndlabel():
     if path.isfile('test_pos_data.json'):
         with codecs.open('test_pos_data.json', 'rb') as fi:
             test_pos_data = json.load(fi)
@@ -77,6 +77,3 @@ def all_test_data_label():
     all_test_data = np.concatenate((test_pos_data, test_neg_data))
     all_test_label = np.concatenate((test_pos_labels, test_neg_labels))
     return all_test_data, all_test_label
-
-all_train_data, all_train_label = all_train_data_label()
-all_test_data, all_test_label = all_test_data_label()
