@@ -32,19 +32,19 @@ def get_data_set(set_type="train", category="pos"):
 
 def all_train_dataAndlabel():
     if path.isfile('train_pos_data.json'):
-        with codecs.open('train_pos_data.json', 'rb') as fi:
+        with codecs.open('train_pos_data.json', 'rb', encoding='utf-8') as fi:
             train_pos_data = json.load(fi)
     else:
         train_pos_data = get_data_set()
-        with codecs.open('train_pos_data.json', 'w') as fi:
+        with codecs.open('train_pos_data.json', 'w', encoding='utf-8') as fi:
             json.dump(train_pos_data, fi)
 
     if path.isfile('train_neg_data.json'):
-        with codecs.open('train_neg_data.json', 'rb') as fi:
+        with codecs.open('train_neg_data.json', 'rb', encoding='utf-8') as fi:
             train_neg_data = json.load(fi)
     else:
         train_neg_data = get_data_set(category="neg")
-        with codecs.open('train_neg_data.json', 'w') as fi:
+        with codecs.open('train_neg_data.json', 'w', encoding='utf-8') as fi:
             json.dump(train_neg_data, fi)
 
     train_pos_labels = np.ones((len(train_pos_data), 1), dtype=int)
@@ -56,19 +56,19 @@ def all_train_dataAndlabel():
 
 def all_test_dataAndlabel():
     if path.isfile('test_pos_data.json'):
-        with codecs.open('test_pos_data.json', 'rb') as fi:
+        with codecs.open('test_pos_data.json', 'rb', encoding='utf-8') as fi:
             test_pos_data = json.load(fi)
     else:
         test_pos_data = get_data_set(set_type="test")
-        with codecs.open('test_pos_data.json', 'w') as fi:
+        with codecs.open('test_pos_data.json', 'w', encoding='utf-8') as fi:
             json.dump(test_pos_data, fi)
 
     if path.isfile('test_neg_data.json'):
-        with codecs.open('test_neg_data.json', 'rb') as fi:
+        with codecs.open('test_neg_data.json', 'rb', encoding='utf-8') as fi:
             test_neg_data = json.load(fi)
     else:
         test_neg_data = get_data_set("test", "neg")
-        with codecs.open('test_neg_data.json', 'w') as fi:
+        with codecs.open('test_neg_data.json', 'w', encoding='utf-8') as fi:
             json.dump(test_neg_data, fi)
 
     test_pos_labels = np.ones((len(test_pos_data), 1), dtype=int)
