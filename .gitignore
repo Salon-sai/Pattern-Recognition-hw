@@ -3,3 +3,4 @@ train/*
 .idea/*
 __pycache__/*
 *.json
+*.pyc
