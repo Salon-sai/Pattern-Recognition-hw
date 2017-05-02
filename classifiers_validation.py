@@ -48,18 +48,22 @@ def cross_validation_models(estimators, all_train_data, all_train_labels):
 
     return precision_means, recall_means, f1_means
 
-def validataion_with_testSet(estimators):
-    test_accuracy = []  # 各个模型关于测试集合的准确率
-    precisions = []     # 各个模型关于测试集合的precisions
-    recalls = []        # 各个模型关于测试集合的recalls
+def predict_with_testSet(estimators, all_train_data, all_train_label):
+    test_accuracy = dict()  # 各个模型关于测试集合的准确率
+
     all_test_data, all_test_labels = data_process.all_test_dataAndlabel()
     for k in estimators.keys():
+        final_model_file = MODEL_PATH + "final/" + k + "_final.pkl"
+
+        if path.isfile(final_model_file):
+            estimators[k] = joblib.load(final_model_file)
+        else:
+            estimators[k] = estimators[k].fit(all_train_data, all_train_label.ravel())
+            joblib.dump(estimators[k], final_model_file)
+
         predict_scores = estimators[k].predict(all_test_data)
-        test_accuracy.append(accuracy_score(all_test_labels.ravel(), predict_scores))
-        precision, recall, _ = precision_recall_curve(all_test_labels.ravel(), predict_scores)
-        precisions.append(precision)
-        recalls.append(recall)
-    return test_accuracy, precisions, recalls
+        test_accuracy[k] = accuracy_score(all_test_labels.ravel(), predict_scores)
+    return test_accuracy
 
 if __name__ == '__main__':
     all_train_data, all_train_labels = data_process.all_train_dataAndlabel()
@@ -71,10 +75,16 @@ if __name__ == '__main__':
     estimators['adaBoost'] = AdaBoostClassifier()
     estimators['lsvm/lsvm_1e-05'] = svm.LinearSVC(C=10**-5)
 
-    precision_means, recall_means, f1_means = cross_validation_models(estimators, all_train_data, all_train_labels)
+    final_estimator = estimators.copy()
 
-    for key, f1 in f1_means.items():
-        print("The model %s f1 value : %1.5f" % (key, f1))
+    # precision_means, recall_means, f1_means = cross_validation_models(estimators, all_train_data, all_train_labels)
+    #
+    # for key, f1 in f1_means.items():
+    #     print("The model %s f1 value : %1.5f" % (key, f1))
+    #
+    # plot_data.plot_precision_recall([k for k in estimators.keys()], precision_means, recall_means)
 
-    plot_data.plot_precision_recall([k for k in estimators.keys()], precision_means, recall_means)
+    test_accuracy = predict_with_testSet(final_estimator, all_train_data, all_train_labels)
+    for key, accuracy in test_accuracy.items():
+        print("The accuracy of %s model with test set: %1.5f" % (key, accuracy))
 

@@ -53,9 +53,9 @@ average accuracy, precision, recall, F1-Score作为主要的评估属性。
 ![各个模型对应的Precision-Recall曲线](https://github.com/Salon-sai/Pattern-Recognition-hw/blob/master/figure_1-4.png)
 
 
-|  Model         | F1-score  | average accuracy |
-| -----------    |:---------:|:----------------:|
-|bayes/GaussianNB|  0.60013  |     0.7402       |
-|   decisionTree |  0.57864  |   0.7961       |
-|   adaBoost     |**0.73040**|   **0.8690**     |
-|   lsvm_1e-05   |  0.72376  |     0.8629       |
+|  Model         | F1-score  | average accuracy | accuracy (Test Set) |
+| -----------    |:---------:|:----------------:|:-------------------:|
+|bayes/GaussianNB|  0.60013  |     0.7402       |        0.72844      |
+|   decisionTree |  0.57864  |   0.7961         |        0.78080      |
+|   adaBoost     |**0.73040**|   **0.8690**     |      **0.88436**    |
+|   lsvm_1e-05   |  0.72376  |     0.8629       |        0.87055      |
