@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from os import listdir, path
+from sklearn.model_selection import StratifiedKFold
 import numpy as np
 import codecs
 import json
@@ -77,3 +78,17 @@ def all_test_dataAndlabel():
     all_test_data = np.concatenate((test_pos_data, test_neg_data))
     all_test_label = np.concatenate((test_pos_labels, test_neg_labels))
     return all_test_data, all_test_label
+
+def split_data_set(all_train_data, all_train_labels):
+    """
+    10-folds 划分训练数据集
+    :param all_train_data: 所有的训练数据
+    :param all_train_label: 所有的训练标签
+    :return:
+    """
+    sfk = StratifiedKFold(10)
+    all_train_data_array = all_train_data.getA()
+    all_train_label_array = all_train_labels.ravel()
+    for train_index, test_index in sfk.split(all_train_data, all_train_labels.ravel()):
+        yield all_train_data_array[train_index], all_train_label_array[train_index], \
+              all_train_data_array[test_index], all_train_label_array[test_index]
