@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import data_process
 import numpy as np
 from sklearn.svm import LinearSVC
@@ -6,7 +7,7 @@ from sklearn.metrics import precision_recall_curve, accuracy_score, f1_score
 from sklearn.externals import joblib
 from os import path
 import plot_data
-import matplotlib .pyplot as plt
+import matplotlib.pyplot as plt
 
 LSVM_PATH = "save_models/lsvm/"
 

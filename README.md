@@ -44,6 +44,40 @@ average accuracy, precision, recall, F1-Score作为主要的评估属性。
 
 但在这里未能体现出来，可能是因为C的值还不足够小。
 
+### 对于RandomForest
+
+##### 森林中树的个数：20
+
+| max features | spend time (s) | f1      | average accuracy |
+|:------------:|:--------------:|:-------:|:----------------:|
+| 10           |    2.1         | 0.81852 |     0.9165       |
+| log2(n)      |    3.0         | 0.81845 |     0.9168       |
+| sqrt(n)      |    14          | 0.86445 |     0.9349       |
+| 100          |    32.21       | 0.87659 |     0.9400       |
+| 200          |    72.2        | 0.87623 |     0.9398       |
+
+> 不同属性数量的Precision-Recall曲线(10-fold cross-validation的均值)
+
+![不同属性数量的Precision-Recall曲线](https://github.com/Salon-sai/Pattern-Recognition-hw/blob/master/figure_1-5.png)
+
+
+##### 森林中树的个数：50
+
+| max features | spend time (s) | f1      | average accuracy |
+|:------------:|:--------------:|:-------:|:----------------:|
+| 10           |    7.0         | 0.85661 |     0.9327       |
+| log2(n)      |    7.5         | 0.86382 |     0.9356       |
+| sqrt(n)      |    36.7        | 0.89114 |     0.9470       |
+| 100          |    82.21       | 0.89546 |     0.9485       |
+| 200          |    176.1       | 0.89676 |     0.9490       |
+
+> 不同属性数量的Precision-Recall曲线(10-fold cross-validation的均值)
+
+![不同属性数量的Precision-Recall曲线](https://github.com/Salon-sai/Pattern-Recognition-hw/blob/master/figure_1-6.png)
+
+结论：从平均训练花费时间，f1和平均准确率来看，树的数量：50、最大属性个数：log2(dim_n)的效果比较理想。我们将它作为随机森林的代表加入到
+不同训练模型当中进行对比。
+
 ### 不同的模型
 
 对于之前Linear SVM不同的参数C的评估，我们选择最优的参数C（10^-5）作为Linear SVM的参数加入到模型集合中一起进行评估。
