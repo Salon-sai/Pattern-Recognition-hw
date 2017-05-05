@@ -73,7 +73,7 @@ if __name__ == '__main__':
     estimators['bayes/gaussianNB'] = GaussianNB()
     estimators['tree'] = tree.DecisionTreeClassifier()
     # estimators['forest_100'] = RandomForestClassifier(n_estimators=100)
-    # estimators['forest_10'] = RandomForestClassifier(n_estimators=10)
+    estimators['RandomForest/RandomForest_50_log2'] = RandomForestClassifier(n_estimators=50, max_features="log2")
     estimators['adaBoost'] = AdaBoostClassifier()
     estimators['lsvm/lsvm_1e-05'] = svm.LinearSVC(C=10**-5)
 

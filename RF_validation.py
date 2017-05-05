@@ -18,9 +18,10 @@ def cross_validation_args(suffix, classifier, all_train_data, all_train_label):
     f1_scores = []      # 存放各个训练集合所得到的f1值
 
     cross_data_label = [x for x in data_process.split_data_set(all_train_data, all_train_label)]
-    i = 1
+    i = 0
+    total_time = 0
     for train_x, train_y, test_x, test_y in cross_data_label:
-        classifier = fitOrload_model(suffix + "_" + str(i), classifier, train_x, train_y)
+        classifier, spend_time = fitOrload_model(suffix + "_" + str(i), classifier, train_x, train_y)
         predict = classifier.predict(test_x)
 
         accuracies.append(accuracy_score(test_y, predict))
@@ -28,21 +29,27 @@ def cross_validation_args(suffix, classifier, all_train_data, all_train_label):
         precisions.append(precision)
         recalls.append(recall)
         f1_scores.append(f1_score(test_y, predict))
+
         i += 1
+        total_time += spend_time
+    print("the suffix : %s ,average spend time : %1.3f" % (suffix, total_time / 10))
     return np.array(accuracies).mean(), np.array(precisions).mean(axis=0),\
            np.array(recalls).mean(axis=0), np.array(f1_scores).mean()
 
 def fitOrload_model(suffix, classifier, train_x, train_y):
     model_file = "%sRandomForest_%s.pkl" % (MODEL_PATH, suffix)
+    start_time = 0
+    end_time = 0
+
     if path.isfile(model_file):
         classifier = joblib.load(model_file)
     else:
         start_time = datetime.datetime.now()
         classifier.fit(train_x, train_y)
         end_time = datetime.datetime.now()
-        print("%s spend time ：%1.3f" % (suffix, (end_time - start_time).seconds))
         joblib.dump(classifier, model_file)
-    return classifier
+
+    return classifier, (end_time - start_time).seconds
 
 
 if __name__ == '__main__':
