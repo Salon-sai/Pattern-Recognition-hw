@@ -48,6 +48,8 @@ average accuracy, precision, recall, F1-Score作为主要的评估属性。
 
 ##### 森林中树的个数：20
 
+> 不同属性数量的训练用时，10-folds cross-validation f1-score, average accuracy
+
 | max features | spend time (s) | f1      | average accuracy |
 |:------------:|:--------------:|:-------:|:----------------:|
 | 10           |    2.1         | 0.81852 |     0.9165       |
@@ -58,7 +60,7 @@ average accuracy, precision, recall, F1-Score作为主要的评估属性。
 
 > 不同属性数量的Precision-Recall曲线(10-fold cross-validation的均值)
 
-![不同属性数量的Precision-Recall曲线](https://github.com/Salon-sai/Pattern-Recognition-hw/blob/master/figure_1-5.png)
+![不同属性数量的Precision-Recall曲线](https://github.com/Salon-sai/Pattern-Recognition-hw/blob/master/figure_1-6.png)
 
 
 ##### 森林中树的个数：50
@@ -73,14 +75,15 @@ average accuracy, precision, recall, F1-Score作为主要的评估属性。
 
 > 不同属性数量的Precision-Recall曲线(10-fold cross-validation的均值)
 
-![不同属性数量的Precision-Recall曲线](https://github.com/Salon-sai/Pattern-Recognition-hw/blob/master/figure_1-6.png)
+![不同属性数量的Precision-Recall曲线](https://github.com/Salon-sai/Pattern-Recognition-hw/blob/master/figure_1-5.png)
 
 结论：从平均训练花费时间，f1和平均准确率来看，树的数量：50、最大属性个数：log2(dim_n)的效果比较理想。我们将它作为随机森林的代表加入到
 不同训练模型当中进行对比。
 
 ### 不同的模型
 
-对于之前Linear SVM不同的参数C的评估，我们选择最优的参数C（10^-5）作为Linear SVM的参数加入到模型集合中一起进行评估。
+对于之前Linear SVM和Random Forest不同的参数评估，我们选择最优的参数C（10^-5）作为Linear SVM的参数和树的数目为50，最大属性个数为
+log2(dim_n)作为Random Forest的参数加入到综合模型集合中一起进行评估。
 
 > 各个模型对应的Precision-Recall曲线(10-fold cross-validation的均值)
 
@@ -93,3 +96,7 @@ average accuracy, precision, recall, F1-Score作为主要的评估属性。
 |   decisionTree |  0.57864  |   0.7961         |        0.78080      |
 |   adaBoost     |**0.73040**|   **0.8690**     |      **0.88436**    |
 |   lsvm_1e-05   |  0.72376  |     0.8629       |        0.87055      |
+|   Random Forest|  0.86382  |     0.9356       |        0.79302      |
+
+**通过综合对比，我们发现在测试集合准确率好的模型是AdaBoost。在训练集合上的f1值看来，Random Forest是最好的，但在测试集合上的准确率表现一般。
+个人猜测Random Forest的泛化能力没有AdaBoost好，因此我选择AdaBoost算法作为该数据集的训练算法**

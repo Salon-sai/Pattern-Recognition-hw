@@ -18,7 +18,7 @@ def cross_validation_args(suffix, classifier, all_train_data, all_train_label):
     f1_scores = []      # 存放各个训练集合所得到的f1值
 
     cross_data_label = [x for x in data_process.split_data_set(all_train_data, all_train_label)]
-    i = 0
+    i = 1
     total_time = 0
     for train_x, train_y, test_x, test_y in cross_data_label:
         classifier, spend_time = fitOrload_model(suffix + "_" + str(i), classifier, train_x, train_y)
@@ -43,13 +43,13 @@ def fitOrload_model(suffix, classifier, train_x, train_y):
 
     if path.isfile(model_file):
         classifier = joblib.load(model_file)
+        return classifier, 0
     else:
         start_time = datetime.datetime.now()
         classifier.fit(train_x, train_y)
         end_time = datetime.datetime.now()
         joblib.dump(classifier, model_file)
-
-    return classifier, (end_time - start_time).seconds
+        return classifier, (end_time - start_time).seconds
 
 
 if __name__ == '__main__':

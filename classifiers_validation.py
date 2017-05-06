@@ -84,7 +84,10 @@ if __name__ == '__main__':
     for key, f1 in f1_means.items():
         print("The model %s f1 value : %1.5f" % (key, f1))
 
-    plot_data.plot_precision_recall([k for k in estimators.keys()], precision_means, recall_means)
+    plot_data.plot_precision_recall("The P-R plot of different classifier",
+                                    [k for k in estimators.keys()],
+                                    precision_means,
+                                    recall_means)
 
     test_accuracy = predict_with_testSet(final_estimator, all_train_data, all_train_labels)
     for key, accuracy in test_accuracy.items():
